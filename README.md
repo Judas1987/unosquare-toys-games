@@ -28,10 +28,8 @@ Name | Type | Optional | Constrains
 
 ## UI Mockups
 
-* Data form
 ![](images/form.png)
 
-* Data table
 ![](images/table.png)
 
 # Architecture
@@ -43,7 +41,7 @@ Name | Type | Optional | Constrains
 4. (OPTIONAL) Use seed data
 
 **Server Side**
-1. Use ASP.NET Core 3.1
+1. Use ASP.NET Core 3.1 (web API)
 2. Model/Entity validation
 3. Use Dependency Injection
 4. Add a Unit test project with at least 5 unit tests using either xUnit, MSTest
