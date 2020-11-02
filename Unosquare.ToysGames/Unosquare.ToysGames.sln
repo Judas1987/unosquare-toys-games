@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToysGames.API", "ToysGames.API\ToysGames.API.csproj", "{8BF58AC4-737F-4A67-ABC0-5C9310B33698}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToysGames.API.UnitTests", "ToysGames.API.UnitTests\ToysGames.API.UnitTests.csproj", "{4BB93502-B48A-4C35-BA90-760442C49764}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BF58AC4-737F-4A67-ABC0-5C9310B33698}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BF58AC4-737F-4A67-ABC0-5C9310B33698}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BF58AC4-737F-4A67-ABC0-5C9310B33698}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BF58AC4-737F-4A67-ABC0-5C9310B33698}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BB93502-B48A-4C35-BA90-760442C49764}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BB93502-B48A-4C35-BA90-760442C49764}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BB93502-B48A-4C35-BA90-760442C49764}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BB93502-B48A-4C35-BA90-760442C49764}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
