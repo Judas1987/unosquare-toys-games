@@ -15,13 +15,13 @@ namespace ToysGames.API.Interfaces
         /// <summary>
         /// This method deletes an entity.
         /// </summary>
-        /// <param name="entityToDelete"></param>
+        /// <param name="entityToDelete">Represents the entity to be deleted</param>
         void Delete(T entityToDelete);
 
         /// <summary>
         /// This method deletes an entity by its identifier.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Represents the identifier of the entity to be deleted.</param>
         void Delete(object id);
 
         /// <summary>

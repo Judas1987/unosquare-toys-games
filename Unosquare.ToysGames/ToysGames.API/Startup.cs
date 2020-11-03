@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ToysGames.API.Interfaces;
+using ToysGames.API.Workers;
+using ToysGames.Data;
 
 namespace ToysGames.API
 {
@@ -25,6 +28,9 @@ namespace ToysGames.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ProductContext, ProductContext>();
+            
             services.AddControllers();
         }
 
