@@ -14,9 +14,9 @@ namespace ToysGames.Data.Models
         private Guid _productId;
         private string _name;
         private string _description;
-        private int _ageRestriction;
+        private int? _ageRestriction;
         private string _company;
-        private double _price;
+        private double? _price;
 
         #endregion
 
@@ -31,7 +31,7 @@ namespace ToysGames.Data.Models
         /// <param name="company">Represents the product manufacturing company.</param>
         /// <param name="price">Represents the product price.</param>
         private Product(int id, Guid productId, string name, string description, int ageRestriction, string company,
-            double price)
+            double? price)
         {
             _id = id;
             _productId = productId;
@@ -51,8 +51,8 @@ namespace ToysGames.Data.Models
         /// <param name="ageRestriction">Represents the age restriction.</param>
         /// <param name="company">Represents the product manufacturing company.</param>
         /// <param name="price">Represents the product price.</param>
-        public Product(Guid productId, string name, string description, int ageRestriction, string company,
-            double price)
+        public Product(Guid productId, string name, string description, int? ageRestriction, string company,
+            double? price)
         {
             _productId = productId;
             _name = name;
@@ -71,13 +71,14 @@ namespace ToysGames.Data.Models
         /// <summary>
         /// Represents the product name.
         /// </summary>
-        [MaxLength(50), Required]
+        [MaxLength(50, ErrorMessage = "The product name must be of 50 characters at maximum.")]
+        [Required(ErrorMessage = "The product name is mandatory.")]
         public string Name => _name;
 
         /// <summary>
         /// Represents the product description.
         /// </summary>
-        [MaxLength(100)]
+        [MaxLength(100, ErrorMessage = "The product description must be of 100 characters at maximum.")]
         public string Description => _description;
 
         /// <summary>
@@ -89,13 +90,14 @@ namespace ToysGames.Data.Models
         /// <summary>
         /// Represents the product manufacturing company.
         /// </summary>
-        [MaxLength(50), Required]
+        [MaxLength(50, ErrorMessage = "The product company must be of 50 characters at maximum.")]
+        [Required(ErrorMessage = "The product company is mandatory.")]
         public string Company => _company;
 
         /// <summary>
         /// Represents the product price.
         /// </summary>
-        [Range(1, 1000, ErrorMessage = "Price for {0} must be between ${1} and ${2}")]
-        public double Price => _price;
+        [Range(1, 1000, ErrorMessage = "{0} must be between ${1} and ${2}")]
+        public double? Price => _price;
     }
 }

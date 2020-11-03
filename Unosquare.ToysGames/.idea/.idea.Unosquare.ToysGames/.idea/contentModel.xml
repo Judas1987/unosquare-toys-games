@@ -61,7 +61,6 @@
           </e>
         </e>
         <e p="ToysGames.UnitTesting.csproj" t="IncludeRecursive" />
-        <e p="UnitTest1.cs" t="Include" />
       </e>
       <e p="Unosquare.ToysGames.sln" t="IncludeFlat" />
     </e>
