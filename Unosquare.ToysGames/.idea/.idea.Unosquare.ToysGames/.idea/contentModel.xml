@@ -27,20 +27,40 @@
         <e p="Properties" t="Include">
           <e p="launchSettings.json" t="Include" />
         </e>
+        <e p="Repositories" t="Include" />
         <e p="Startup.cs" t="Include" />
         <e p="ToysGames.API.csproj" t="IncludeRecursive" />
         <e p="WeatherForecast.cs" t="Include" />
       </e>
-      <e p="ToysGames.API.UnitTests" t="IncludeRecursive">
+      <e p="ToysGames.Data" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Models" t="Include">
+          <e p="Product.cs" t="Include" />
+        </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
-              <e p="ToysGames.API.UnitTests.AssemblyInfo.cs" t="Include" />
+              <e p="ToysGames.Data.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
-        <e p="ToysGames.API.UnitTests.csproj" t="IncludeRecursive" />
+        <e p="ProductContext.cs" t="Include" />
+        <e p="ToysGames.Data.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="ToysGames.UnitTesting" t="IncludeRecursive">
+        <e p="API" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Data" t="Include">
+          <e p="ProductEntityUnitTest.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.1" t="Include">
+              <e p="ToysGames.UnitTesting.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="ToysGames.UnitTesting.csproj" t="IncludeRecursive" />
         <e p="UnitTest1.cs" t="Include" />
       </e>
       <e p="Unosquare.ToysGames.sln" t="IncludeFlat" />
