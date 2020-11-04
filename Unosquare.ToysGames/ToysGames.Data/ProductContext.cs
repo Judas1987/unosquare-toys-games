@@ -8,9 +8,16 @@ namespace ToysGames.Data
     /// </summary>
     public class ProductContext : DbContext
     {
+        public ProductContext()
+        {
+            
+        }
+
         public ProductContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

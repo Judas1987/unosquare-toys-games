@@ -8,5 +8,9 @@
       <ProjectReference Include="..\ToysGames.Data\ToysGames.Data.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Helpers" />
+    </ItemGroup>
+
 
 </Project>

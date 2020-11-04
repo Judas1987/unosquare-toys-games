@@ -16,6 +16,7 @@
         <e p="Controllers" t="Include">
           <e p="WeatherForecastController.cs" t="Include" />
         </e>
+        <e p="Helpers" t="Include" />
         <e p="Interfaces" t="Include">
           <e p="IRepository.cs" t="Include" />
           <e p="IUnitOfWork.cs" t="Include" />
@@ -43,6 +44,7 @@
       </e>
       <e p="ToysGames.Data" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Helpers" t="Include" />
         <e p="Models" t="Include">
           <e p="Product.cs" t="Include" />
         </e>
@@ -57,11 +59,14 @@
         <e p="ToysGames.Data.csproj" t="IncludeRecursive" />
       </e>
       <e p="ToysGames.UnitTesting" t="IncludeRecursive">
-        <e p="API" t="Include" />
+        <e p="API" t="Include">
+          <e p="BaseRepositoryUnitTest.cs" t="Include" />
+        </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Data" t="Include">
           <e p="ProductEntityUnitTest.cs" t="Include" />
         </e>
+        <e p="Helpers" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
