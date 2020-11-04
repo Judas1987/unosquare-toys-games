@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using ToysGames.API.Interfaces;
 using ToysGames.API.Workers;
 using ToysGames.Data;
+using ToysGames.Data.Models;
 
 namespace ToysGames.API
 {
@@ -29,6 +30,8 @@ namespace ToysGames.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<ProductContext>(opt => opt.UseInMemoryDatabase("TestDatabase"));
+
             var options = new DbContextOptionsBuilder<ProductContext>()
                 .UseInMemoryDatabase(databaseName: "Products")
                 .Options;
@@ -55,6 +58,23 @@ namespace ToysGames.API
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+
+            var unitOfWork = app.ApplicationServices.GetService<IUnitOfWork>();
+            
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Ken", "This is a Ken.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Winnie the poo", "This is a barby.", 1, "Mattel",
+                123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Goku", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Vegeta", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "King kong", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Smurfs set", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Lord of the ring", "This is a barby.", 1, "Mattel",
+                123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby II", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby III", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby IV", "This is a barby.", 1, "Mattel", 123));
         }
     }
 }

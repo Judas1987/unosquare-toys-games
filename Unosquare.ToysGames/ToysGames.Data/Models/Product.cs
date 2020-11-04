@@ -10,7 +10,7 @@ namespace ToysGames.Data.Models
     {
         #region Private members
 
-        private readonly int _id;
+        private int _id;
         private Guid _productId;
         private string _name;
         private string _description;
@@ -60,6 +60,11 @@ namespace ToysGames.Data.Models
             _ageRestriction = ageRestriction;
             _company = company;
             _price = price;
+        }
+
+        public int Id
+        {
+            set => _id = value;
         }
 
         /// <summary>

@@ -34,6 +34,16 @@ Name | Type | Optional | Constrains
 
 # Architecture
 
+**Resource definition**
+Action | Verbs | URL
+------ | ----- | ---
+Create Product | **POST** | {{server}}/products
+Update Product | **PUT** |{{server}}/products/{productId}
+Delete Product | **DELETE** | {{server}}/products/{productId}
+Get All Products | **GET** | {{server}}/products?startIndex=1&itemCount=10
+Get Product By ID | **GET** | {{server}}/products/{productId}
+
+
 **Data Persistence**
 1. Use simple file storage (EF In memory database, JSON, Redis, etc)
 2. Implement IRepository pattern
