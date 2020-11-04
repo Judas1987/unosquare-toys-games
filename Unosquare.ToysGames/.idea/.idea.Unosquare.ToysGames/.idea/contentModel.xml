@@ -14,12 +14,22 @@
         <e p="appsettings.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Controllers" t="Include">
-          <e p="WeatherForecastController.cs" t="Include" />
+          <e p="ErrorsController.cs" t="Include" />
+          <e p="ProductsController.cs" t="Include" />
+        </e>
+        <e p="Exceptions" t="Include">
+          <e p="BadRequestException.cs" t="Include" />
+          <e p="EntityNotFoundException.cs" t="Include" />
         </e>
         <e p="Helpers" t="Include" />
         <e p="Interfaces" t="Include">
           <e p="IRepository.cs" t="Include" />
           <e p="IUnitOfWork.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="GlobalErrorResponse.cs" t="Include" />
+          <e p="PostProductRequest.cs" t="Include" />
+          <e p="PutProductRequest.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">

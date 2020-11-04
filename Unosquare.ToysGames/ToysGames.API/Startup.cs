@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using ToysGames.API.Exceptions;
 using ToysGames.API.Interfaces;
 using ToysGames.API.Workers;
 using ToysGames.Data;
@@ -33,7 +38,7 @@ namespace ToysGames.API
             //services.AddDbContext<ProductContext>(opt => opt.UseInMemoryDatabase("TestDatabase"));
 
             var options = new DbContextOptionsBuilder<ProductContext>()
-                .UseInMemoryDatabase(databaseName: "Products")
+                .UseInMemoryDatabase("Products")
                 .Options;
             var databaseContext = new ProductContext(options);
 
@@ -51,6 +56,8 @@ namespace ToysGames.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseExceptionHandler("/error");
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -58,10 +65,12 @@ namespace ToysGames.API
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            
 
 
             var unitOfWork = app.ApplicationServices.GetService<IUnitOfWork>();
-            
+
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby", "This is a barby.", 1, "Mattel", 123));
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Ken", "This is a Ken.", 1, "Mattel", 123));
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Winnie the poo", "This is a barby.", 1, "Mattel",
@@ -75,6 +84,8 @@ namespace ToysGames.API
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby II", "This is a barby.", 1, "Mattel", 123));
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby III", "This is a barby.", 1, "Mattel", 123));
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby IV", "This is a barby.", 1, "Mattel", 123));
+
+            unitOfWork.Commit();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace ToysGames.Data.Models
     {
         #region Private members
 
-        private int _id;
+        private readonly int _id;
         private Guid _productId;
         private string _name;
         private string _description;
@@ -62,11 +62,6 @@ namespace ToysGames.Data.Models
             _price = price;
         }
 
-        public int Id
-        {
-            set => _id = value;
-        }
-
         /// <summary>
         /// Represents the product id which can be seen by the public. For security purposes the numeric id
         /// should never be available to be seen by the public.
@@ -78,31 +73,51 @@ namespace ToysGames.Data.Models
         /// </summary>
         [MaxLength(50, ErrorMessage = "The product name must be of 50 characters at maximum.")]
         [Required(ErrorMessage = "The product name is mandatory.")]
-        public string Name => _name;
+        public string Name
+        {
+            get => _name;
+            set => _name = value;
+        }
 
         /// <summary>
         /// Represents the product description.
         /// </summary>
         [MaxLength(100, ErrorMessage = "The product description must be of 100 characters at maximum.")]
-        public string Description => _description;
+        public string Description
+        {
+            get => _description;
+            set => _description = value;
+        }
 
         /// <summary>
         /// Represents the product age restriction.
         /// </summary>
         [Range(0, 100, ErrorMessage = "Value for {0} must be between {1} and {2}")]
-        public int? AgeRestriction => _ageRestriction;
+        public int? AgeRestriction
+        {
+            get => _ageRestriction;
+            set => _ageRestriction = value;
+        }
 
         /// <summary>
         /// Represents the product manufacturing company.
         /// </summary>
         [MaxLength(50, ErrorMessage = "The product company must be of 50 characters at maximum.")]
         [Required(ErrorMessage = "The product company is mandatory.")]
-        public string Company => _company;
+        public string Company
+        {
+            get => _company;
+            set => _company = value;
+        }
 
         /// <summary>
         /// Represents the product price.
         /// </summary>
         [Range(1, 1000, ErrorMessage = "{0} must be between ${1} and ${2}")]
-        public double? Price => _price;
+        public double? Price
+        {
+            get => _price;
+            set => _price = value;
+        }
     }
 }
