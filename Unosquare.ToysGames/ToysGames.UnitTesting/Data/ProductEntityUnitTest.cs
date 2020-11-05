@@ -196,5 +196,15 @@ namespace ToysGames.UnitTesting.Data
             Assert.Equal("Price must be between $1 and $1000",
                 validationResults[0].ErrorMessage);
         }
+
+        [Fact]
+        public void Bla()
+        {
+            var product = new Product(new Guid(), "Cool car",
+                "This is a very cool car that I found on internet",
+                10, "Mattel", 12.36);
+            
+            Assert.True(product.Name == "Cool car");
+        }
     }
 }

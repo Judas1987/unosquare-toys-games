@@ -59,44 +59,6 @@ namespace ToysGames.UnitTesting.API
 
     public class BaseRepositoryUnitTest
     {
-        [Fact]
-        public void CreateNewProductExpectSuccess()
-        {
-            var data = new List<Product>()
-            {
-                new Product(new Guid(), null, null, null, null, null),
-                new Product(new Guid(), null, null, null, null, null),
-                new Product(new Guid(), null, null, null, null, null)
-            }.AsQueryable();
-
-            var mockedContext = new Mock<ProductContext>();
-            var mockedDbSet = new Mock<DbSet<Product>>();
-
-            mockedContext.Setup(itm => itm.SaveChanges())
-                .Callback(() => {
-
-                    (data as List<Product>).Add(new Product(new Guid(), null, null, null, null, null));
-
-                });
-
-            mockedDbSet.As<IQueryable<Product>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockedDbSet.As<IQueryable<Product>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockedDbSet.As<IQueryable<Product>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockedDbSet.As<IQueryable<Product>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            mockedContext.Setup(context => context.Set<Product>())
-                .Returns(() => mockedDbSet.Object);
-            var productsRepository = new BaseRepository<Product>(mockedContext.Object);
-
-            productsRepository.Insert(new Product(new Guid(), "Cool Barby",
-                "This is a cool barby I found on the internet.", 3, "Mattel", 234));
-
-            var result = mockedContext.Object.SaveChanges();
-
-
-            var bla = productsRepository.Get();
-
-            Console.WriteLine("Hello world");
-        }
+   
     }
 }
