@@ -4,6 +4,8 @@ This project is meant to create a stock management web tool for toys and games
 - [Requirements](#requirements)
   - [UI Mockups](#ui-mockups)
 - [Architecture](#architecture)
+    - [**Testing and access**](#testing-and-access)
+  
 
 # Requirements
 
@@ -43,7 +45,7 @@ Delete Product | **DELETE** | {{server}}/products/{productId}
 Get All Products | **GET** | {{server}}/products?startIndex=1&itemCount=10
 Get Product By ID | **GET** | {{server}}/products/{productId}
 
-**Testing and access**
+### **Testing and access** <!--omit in toc-->
 You can use Swagger for manual testing in your browser. You can access it by typing swagger into the API URL like: http://localhost:8080/swagger
 
 ![](images/swagger.png)
