@@ -193,5 +193,43 @@ namespace ToysGames.API.Controllers
                 _logger.LogDebug("The request for the products resource has been finished.");
             }
         }
+
+        /// <summary>
+        /// This method handles the DELETE requests for the product resource.
+        /// </summary>
+        /// <param name="productId">Represents the product id.</param>
+        /// <returns></returns>
+        [HttpDelete("{productId}")]
+        public IActionResult Delete(string productId)
+        {
+            try
+            {
+                if (!Guid.TryParse(productId, out var parsedProductId))
+                    throw new BadRequestException($"The product id {productId} cannot be parsed correctly.");
+
+                Product existingProduct = _unitOfWork.Products
+                    .Get(product => product.ProductId == parsedProductId)
+                    .SingleOrDefault();
+
+                if (existingProduct == null)
+                    throw new EntityNotFoundException($"The productId {productId} does not exist in the database.");
+
+                _unitOfWork.Products.Delete(existingProduct);
+                _unitOfWork.Commit();
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogCritical("Exception while processing request to delete product.");
+                _logger.LogCritical($"Exception message: {e.Message}");
+
+                throw;
+            }
+            finally
+            {
+                _logger.LogDebug("The request for the products resource has been finished.");
+            }
+        }
     }
 }

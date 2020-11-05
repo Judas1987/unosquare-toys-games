@@ -73,7 +73,7 @@ namespace ToysGames.API
 
             var unitOfWork = app.ApplicationServices.GetService<IUnitOfWork>();
 
-            unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Barby", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.Parse("b06494b7-01b6-49b9-a6db-e32d64e4420c"), "Barby", "This is a barby.", 1, "Mattel", 123));
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Ken", "This is a Ken.", 1, "Mattel", 123));
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Winnie the poo", "This is a barby.", 1, "Mattel",
                 123));

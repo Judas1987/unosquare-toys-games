@@ -47,7 +47,6 @@
         </e>
         <e p="Startup.cs" t="Include" />
         <e p="ToysGames.API.csproj" t="IncludeRecursive" />
-        <e p="WeatherForecast.cs" t="Include" />
         <e p="Workers" t="Include">
           <e p="UnitOfWork.cs" t="Include" />
         </e>
@@ -69,7 +68,6 @@
       </e>
       <e p="ToysGames.UnitTesting" t="IncludeRecursive">
         <e p="API" t="Include">
-          <e p="BaseRepositoryUnitTest.cs" t="Include" />
           <e p="GlobalErrorResponseUnitTesting.cs" t="Include" />
           <e p="PostProductRequestUnitTest.cs" t="Include" />
           <e p="ProductsControllerUnitTest.cs" t="Include" />

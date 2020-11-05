@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -20,13 +17,10 @@ namespace ToysGames.UnitTesting.API
 {
     public class ProductsControllerUnitTest : IClassFixture<WebApplicationFactory<ToysGames.API.Startup>>
     {
-        private readonly ITestOutputHelper _testOutputHelper;
         private readonly HttpClient _client;
 
-        public ProductsControllerUnitTest(ITestOutputHelper testOutputHelper,
-            WebApplicationFactory<ToysGames.API.Startup> fixture)
+        public ProductsControllerUnitTest(WebApplicationFactory<ToysGames.API.Startup> fixture)
         {
-            _testOutputHelper = testOutputHelper;
             _client = fixture.CreateClient();
         }
 
@@ -83,6 +77,9 @@ namespace ToysGames.UnitTesting.API
             Assert.NotEmpty(createdProduct.ProductId.ToString());
         }
 
+        /// <summary>
+        /// This test method gets all the available products.
+        /// </summary>
         [Fact]
         public async void GetProductExpectSuccess()
         {
@@ -95,9 +92,49 @@ namespace ToysGames.UnitTesting.API
 
             BaseResponse<Product> createdProductResponse =
                 JsonConvert.DeserializeObject<BaseResponse<Product>>(responseContent);
-            
+
             Assert.NotNull(createdProductResponse);
-            Assert.Equal(3, createdProductResponse.Count);
+            Assert.True(createdProductResponse.Count > 0);
+        }
+
+        /// <summary>
+        /// This test method updates an existing product.
+        /// </summary>
+        [Fact]
+        async void PutProductExpectSuccess()
+        {
+            var request = new PutProductRequest()
+            {
+                Name = "A test product",
+                Description = "Description",
+                Company = "Company",
+                Price = 10,
+                AgeRestriction = 1
+            };
+
+            var buffer = System.Text.Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(request));
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
+
+            var response = await _client
+                .PutAsync("/products/b06494b7-01b6-49b9-a6db-e32d64e4420c", byteContent);
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            string responseContent = await response.Content.ReadAsStringAsync();
+
+            Assert.NotEmpty(responseContent);
+
+            BaseResponse<Product> createdProductResponse =
+                JsonConvert.DeserializeObject<BaseResponse<Product>>(responseContent);
+
+            Assert.NotNull(createdProductResponse);
+            Assert.Equal(1, createdProductResponse.Count);
+
+            var updateProduct = createdProductResponse.Data.SingleOrDefault();
+
+            Assert.NotNull(updateProduct);
+            Assert.Equal("A test product", updateProduct.Name);
+            Assert.NotEmpty(updateProduct.ProductId.ToString());
         }
     }
 }
