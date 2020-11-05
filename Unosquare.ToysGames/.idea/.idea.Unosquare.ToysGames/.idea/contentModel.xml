@@ -26,6 +26,7 @@
           <e p="IUnitOfWork.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
+          <e p="BaseResponse.cs" t="Include" />
           <e p="GlobalErrorResponse.cs" t="Include" />
           <e p="PostProductRequest.cs" t="Include" />
           <e p="PutProductRequest.cs" t="Include" />
@@ -71,10 +72,14 @@
           <e p="BaseRepositoryUnitTest.cs" t="Include" />
           <e p="GlobalErrorResponseUnitTesting.cs" t="Include" />
           <e p="PostProductRequestUnitTest.cs" t="Include" />
+          <e p="ProductsControllerUnitTest.cs" t="Include" />
           <e p="PutProductRequestUnitTest.cs" t="Include" />
           <e p="UnitOfWorkUnitTesting.cs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Configuration" t="Include">
+          <e p="ApiWebApplicationFactory.cs" t="Include" />
+        </e>
         <e p="Data" t="Include">
           <e p="ProductEntityUnitTest.cs" t="Include" />
         </e>

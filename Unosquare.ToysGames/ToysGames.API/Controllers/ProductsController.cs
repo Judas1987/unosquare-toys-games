@@ -1,7 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -46,7 +45,10 @@ namespace ToysGames.API.Controllers
 
                 _logger.LogDebug("The new product has been successfully created.");
 
-                return new OkObjectResult(new {NewProduct = newProduct});
+                return new OkObjectResult(new BaseResponse<Product>
+                {
+                    Data = new List<Product> {newProduct}
+                });
             }
             catch (Exception e)
             {
@@ -68,7 +70,10 @@ namespace ToysGames.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return new OkObjectResult(new {products = _unitOfWork.Products.Get()});
+            return new OkObjectResult(new BaseResponse<Product>
+            {
+                Data = _unitOfWork.Products.Get().ToList()
+            });
         }
 
         /// <summary>
@@ -92,7 +97,10 @@ namespace ToysGames.API.Controllers
                 if (existingProduct == null)
                     throw new EntityNotFoundException($"The productId {productId} does not exist in the database.");
 
-                return new OkObjectResult(existingProduct);
+                return new OkObjectResult(new BaseResponse<Product>
+                {
+                    Data = new List<Product> {existingProduct}
+                });
             }
             catch (Exception e)
             {
@@ -135,31 +143,32 @@ namespace ToysGames.API.Controllers
                     existingProduct.Name = newProductData.Name;
                     commitRequired = true;
                 }
-                
-                if (!string.IsNullOrEmpty(newProductData.Description) && newProductData.Description != existingProduct.Description)
+
+                if (!string.IsNullOrEmpty(newProductData.Description) &&
+                    newProductData.Description != existingProduct.Description)
                 {
                     existingProduct.Description = newProductData.Description;
                     commitRequired = true;
                 }
-                
-                if (newProductData.AgeRestriction != null && newProductData.AgeRestriction != existingProduct.AgeRestriction)
+
+                if (newProductData.AgeRestriction != null &&
+                    newProductData.AgeRestriction != existingProduct.AgeRestriction)
                 {
                     existingProduct.AgeRestriction = newProductData.AgeRestriction;
                     commitRequired = true;
                 }
-                
+
                 if (!string.IsNullOrEmpty(newProductData.Company) && newProductData.Company != existingProduct.Company)
                 {
                     existingProduct.Company = newProductData.Company;
                     commitRequired = true;
                 }
-                
+
                 if (newProductData.Price != null && !newProductData.Price.Equals(existingProduct.Price))
                 {
                     existingProduct.Price = newProductData.Price;
                     commitRequired = true;
                 }
-                
 
                 if (commitRequired)
                 {
@@ -167,7 +176,10 @@ namespace ToysGames.API.Controllers
                     _unitOfWork.Commit();
                 }
 
-                return new OkObjectResult(existingProduct);
+                return new OkObjectResult(new BaseResponse<Product>
+                {
+                    Data = new List<Product> {existingProduct}
+                });
             }
             catch (Exception e)
             {
