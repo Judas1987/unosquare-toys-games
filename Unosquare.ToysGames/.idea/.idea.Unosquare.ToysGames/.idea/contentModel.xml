@@ -71,6 +71,7 @@
       <e p="ToysGames.UnitTesting" t="IncludeRecursive">
         <e p="API" t="Include">
           <e p="BaseRepositoryUnitTest.cs" t="Include" />
+          <e p="UnitOfWorkUnitTesting.cs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Data" t="Include">
