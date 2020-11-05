@@ -35,7 +35,7 @@ namespace ToysGames.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContext<ProductContext>(opt => opt.UseInMemoryDatabase("TestDatabase"));
+            services.AddSwaggerGen();
 
             var options = new DbContextOptionsBuilder<ProductContext>()
                 .UseInMemoryDatabase("Products")
@@ -56,17 +56,19 @@ namespace ToysGames.API
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseExceptionHandler("/error");
+            app.UseSwagger();
             
+            app.UseExceptionHandler("/error");
+
             app.UseHttpsRedirection();
+
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Products API V1"); });
 
             app.UseRouting();
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            
-            
 
 
             var unitOfWork = app.ApplicationServices.GetService<IUnitOfWork>();

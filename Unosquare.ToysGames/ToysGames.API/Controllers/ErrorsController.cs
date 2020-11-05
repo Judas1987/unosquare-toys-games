@@ -6,6 +6,7 @@ using ToysGames.API.Models;
 
 namespace ToysGames.API.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ErrorsController : ControllerBase
     {
         /// <summary>

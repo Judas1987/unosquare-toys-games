@@ -53,7 +53,6 @@
       </e>
       <e p="ToysGames.Data" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
-        <e p="Helpers" t="Include" />
         <e p="Models" t="Include">
           <e p="Product.cs" t="Include" />
         </e>
@@ -71,13 +70,13 @@
         <e p="API" t="Include">
           <e p="BaseRepositoryUnitTest.cs" t="Include" />
           <e p="GlobalErrorResponseUnitTesting.cs" t="Include" />
+          <e p="PostProductRequestUnitTest.cs" t="Include" />
           <e p="UnitOfWorkUnitTesting.cs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="Data" t="Include">
           <e p="ProductEntityUnitTest.cs" t="Include" />
         </e>
-        <e p="Helpers" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.1" t="Include">
