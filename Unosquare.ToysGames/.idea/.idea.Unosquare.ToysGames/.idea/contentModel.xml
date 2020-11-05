@@ -71,6 +71,7 @@
           <e p="BaseRepositoryUnitTest.cs" t="Include" />
           <e p="GlobalErrorResponseUnitTesting.cs" t="Include" />
           <e p="PostProductRequestUnitTest.cs" t="Include" />
+          <e p="PutProductRequestUnitTest.cs" t="Include" />
           <e p="UnitOfWorkUnitTesting.cs" t="Include" />
         </e>
         <e p="bin" t="ExcludeRecursive" />
