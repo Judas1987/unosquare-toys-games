@@ -14,7 +14,7 @@ export class ProductEditComponent implements OnInit {
 
   productForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-    price: new FormControl('', [Validators.min(0), Validators.max(100), Validators.required]),
+    price: new FormControl('', [Validators.min(1), Validators.max(1000), Validators.required]),
     company: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     ageRestriction: new FormControl('', [Validators.min(0), Validators.max(100)]),
     description: new FormControl('', [Validators.maxLength(100)])
@@ -34,9 +34,11 @@ export class ProductEditComponent implements OnInit {
 
   }
 
-  transformAmount(element): any {
-    this.formattedAmount = this.currencyPipe.transform(this.formattedAmount, '$');
+  transformAmount(element): void {
+    console.log(element);
 
-    console.log(this.formattedAmount);
+    this.productForm.patchValue({
+      price: this.currencyPipe.transform(345.44, '$')
+    });
   }
 }

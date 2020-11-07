@@ -13,7 +13,7 @@
   <div class="form-group row">
     <label for="productPrice" class="col-sm-3 col-form-label">Price</label>
     <div class="col-sm-9">
-      <input type="number" formControlName="price" class="form-control" id="productPrice" placeholder="Price">
+      <input type="text" (blur)="transformAmount($event)" formControlName="price" class="form-control" id="productPrice" placeholder="Price">
       <div *ngIf="!productForm.controls['price'].valid && productForm.controls['price'].touched"
            class="invalid-input-validation">
         Please provide the product price.
