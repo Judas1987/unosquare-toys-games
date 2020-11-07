@@ -1,55 +1,64 @@
-<form>
+<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
   <div class="form-group row">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
-    <div class="col-sm-10">
-      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-    <div class="col-sm-10">
-      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-    </div>
-  </div>
-  <fieldset class="form-group">
-    <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
-      <div class="col-sm-10">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-          <label class="form-check-label" for="gridRadios1">
-            First radio
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-          <label class="form-check-label" for="gridRadios2">
-            Second radio
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-          <label class="form-check-label" for="gridRadios3">
-            Third disabled radio
-          </label>
-        </div>
+    <label for="productName" class="col-sm-3 col-form-label">Name</label>
+    <div class="col-sm-9">
+      <input type="text" formControlName="name" class="form-control" id="productName" placeholder="Name">
+      <div *ngIf="!productForm.controls['name'].valid && productForm.controls['name'].touched"
+           class="invalid-input-validation">
+        Please enter a product name.
       </div>
     </div>
-  </fieldset>
+
+  </div>
   <div class="form-group row">
-    <div class="col-sm-2">Checkbox</div>
-    <div class="col-sm-10">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck1">
-        <label class="form-check-label" for="gridCheck1">
-          Example checkbox
-        </label>
+    <label for="productPrice" class="col-sm-3 col-form-label">Price</label>
+    <div class="col-sm-9">
+      <input type="number" formControlName="price" class="form-control" id="productPrice" placeholder="Price">
+      <div *ngIf="!productForm.controls['price'].valid && productForm.controls['price'].touched"
+           class="invalid-input-validation">
+        Please provide the product price.
       </div>
     </div>
   </div>
   <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Sign in</button>
+    <label for="company" class="col-sm-3 col-form-label">Company</label>
+    <div class="col-sm-9">
+      <input type="text" formControlName="company" class="form-control" id="company" placeholder="Company">
+      <div *ngIf="!productForm.controls['company'].valid && productForm.controls['company'].touched"
+           class="invalid-input-validation">
+        The company is required and must have 50 characters at maximum.
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="maximumAge" class="col-sm-3 col-form-label">Maximum age</label>
+    <div class="col-sm-9">
+      <input type="number" formControlName="ageRestriction" class="form-control" id="maximumAge"
+             placeholder="Maximum age">
+      <div *ngIf="!productForm.controls['ageRestriction'].valid && productForm.controls['ageRestriction'].touched"
+           class="invalid-input-validation">
+        The maximum age must be between 0 and 100.
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="maximumAge" class="col-sm-3 col-form-label">Description</label>
+    <div class="col-sm-9">
+      <textarea id="description" formControlName="description" class="form-control"
+                placeholder="Description"></textarea>
+      <div *ngIf="!productForm.controls['description'].valid && productForm.controls['description'].touched"
+           class="invalid-input-validation">
+        The description must be of 100 characters at max.
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-12">
+      <div class="text-right">
+        <button type="submit" [disabled]="!productForm.valid" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-danger">Cancel</button>
+      </div>
     </div>
   </div>
 </form>

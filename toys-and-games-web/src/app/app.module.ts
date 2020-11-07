@@ -7,6 +7,8 @@ import { ProductItemComponent } from './products/product-item/product-item.compo
 import { ProductListComponent } from './products/product-list/product-list.component';
 import { ProductEditComponent } from './products/product-edit/product-edit.component';
 import { ProductsComponent } from './products/products.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {CurrencyPipe} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,13 @@ import { ProductsComponent } from './products/products.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    CurrencyPipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
