@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, NgForm, FormControl, Validators} from '@angular/forms';
 import {CurrencyPipe} from '@angular/common';
+import {isNull} from 'util';
 
 
 @Component({
@@ -39,7 +40,7 @@ export class ProductEditComponent implements OnInit {
     let formattedPrice: string;
     const convertedNumber = Number(currentPrice.value);
 
-    if (typeof (convertedNumber) !== 'number') {
+    if (typeof (convertedNumber) !== 'number' || convertedNumber <= 0) {
       formattedPrice = '';
     } else {
       formattedPrice = this.currencyPipe.transform(convertedNumber, '$');
@@ -53,9 +54,10 @@ export class ProductEditComponent implements OnInit {
   transformToNumeric(): void {
     const currentPrice = this.productForm.get('price') as FormControl;
 
-    if (currentPrice.value === '') {
+    if (currentPrice.value === '' || currentPrice.value === null) {
       return;
     }
+
     const price = currentPrice.value.replace('$', '');
     this.productForm.patchValue({
       price

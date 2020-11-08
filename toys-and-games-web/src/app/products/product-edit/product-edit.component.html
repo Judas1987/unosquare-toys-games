@@ -14,7 +14,8 @@
     <label for="productPrice" class="col-sm-3 col-form-label">Price</label>
     <div class="col-sm-9">
       <input type="text" pattern="^\$?([0-9]{1,3},([0-9]{3},)*[0-9]{3}|[0-9]+)(\.[0-9][0-9])?$"
-             (blur)="transformAmount()" (focus)="transformToNumeric()" formControlName="price" class="form-control" id="productPrice"
+             (blur)="transformAmount()" (focus)="transformToNumeric()" formControlName="price" class="form-control"
+             id="productPrice"
              placeholder="Price">
       <div *ngIf="!productForm.controls['price'].valid && productForm.controls['price'].touched"
            class="invalid-input-validation">
