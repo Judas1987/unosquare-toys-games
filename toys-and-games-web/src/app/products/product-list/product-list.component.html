@@ -19,13 +19,13 @@
           </thead>
           <tbody>
           <tr *ngFor="let currentProduct of productList; index as i">
-            <td>{{currentProduct}}</td>
-            <td>{{currentProduct}}</td>
-            <td>{{currentProduct}}</td>
-            <td>{{currentProduct}}</td>
+            <td>{{currentProduct.name}}</td>
+            <td>{{currentProduct.ageRestriction}}</td>
+            <td>{{currentProduct.price}}</td>
+            <td>{{currentProduct.company}}</td>
             <td>
-              <a routerLink="../{{i}}/edit">Edit</a>
-              <a routerLink="../{{i}}/delete">Delete</a>
+              <a routerLink="../{{currentProduct.productId.toString()}}/edit">Edit</a>
+              <a routerLink="../{{currentProduct.productId.toString()}}/delete">Delete</a>
             </td>
           </tr>
           </tbody>
