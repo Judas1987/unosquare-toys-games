@@ -34,11 +34,32 @@ export class ProductEditComponent implements OnInit {
 
   }
 
-  transformAmount(element): void {
-    console.log(element);
+  transformAmount(): void {
+    const currentPrice = this.productForm.get('price') as FormControl;
+    let formattedPrice: string;
+    const convertedNumber = Number(currentPrice.value);
+
+    if (typeof (convertedNumber) !== 'number') {
+      formattedPrice = '';
+    } else {
+      formattedPrice = this.currencyPipe.transform(convertedNumber, '$');
+    }
 
     this.productForm.patchValue({
-      price: this.currencyPipe.transform(345.44, '$')
+      price: formattedPrice
     });
   }
+
+  transformToNumeric(): void {
+    const currentPrice = this.productForm.get('price') as FormControl;
+
+    if (currentPrice.value === '') {
+      return;
+    }
+    const price = currentPrice.value.replace('$', '');
+    this.productForm.patchValue({
+      price
+    });
+  }
+
 }
