@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {Product} from '../../models/Product';
 import {Guid} from 'guid-typescript';
+import {ProductsService} from '../../Services/products.service';
 
 @Component({
   selector: 'app-product-list',
@@ -10,18 +11,14 @@ import {Guid} from 'guid-typescript';
 })
 export class ProductListComponent implements OnInit {
 
-  constructor(private route: Router) {
+  constructor(private route: Router, private productsService: ProductsService) {
   }
 
   productList: Product[] = [];
 
   ngOnInit(): void {
 
-    this.productList.push(new Product(Guid.create(), 'Barbie Elsa - Frozen', 134, 'Mattel', 10, 'This is the best barbie in the world.'));
-    this.productList.push(new Product(Guid.create(), 'Barbie Anna - Frozen', 134, 'Mattel', 10, 'This is the best barbie in the world.'));
-    this.productList.push(new Product(Guid.create(), 'Goku action figure', 55, 'Mattel', 10, ''));
-    this.productList.push(new Product(Guid.create(), 'Vegeta action figure', 55, 'Mattel', 10, ''));
-    this.productList.push(new Product(Guid.create(), 'Winnie the poo', 12, 'Mattel', 10, ''));
+    this.productList = this.productsService.getProducts();
   }
 
   addNewProduct(): void {

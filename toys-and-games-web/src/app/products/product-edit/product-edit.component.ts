@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormGroup, NgForm, FormControl, Validators} from '@angular/forms';
 import {CurrencyPipe} from '@angular/common';
 import {Router} from '@angular/router';
+import {ProductsService} from '../../Services/products.service';
+import {Product} from '../../models/Product';
+import {Guid} from 'guid-typescript';
 
 
 @Component({
@@ -21,7 +24,7 @@ export class ProductEditComponent implements OnInit {
     description: new FormControl('', [Validators.maxLength(100)])
   });
 
-  constructor(private currencyPipe: CurrencyPipe, private route: Router) {
+  constructor(private currencyPipe: CurrencyPipe, private route: Router, private productsService: ProductsService) {
   }
 
   ngOnInit(): void {
@@ -29,7 +32,17 @@ export class ProductEditComponent implements OnInit {
 
 
   onSubmit(): any {
-    console.log(this.productForm);
+
+    const name = this.productForm.get('name') as FormControl;
+    const price = this.productForm.get('price') as FormControl;
+    const company = this.productForm.get('company') as FormControl;
+    const ageRestriction = this.productForm.get('ageRestriction') as FormControl;
+    const description = this.productForm.get('description') as FormControl;
+
+    const newProduct = new Product(Guid.create(), name.value, price.value, company.value, ageRestriction.value, description.value);
+
+    this.productsService.addProduct(newProduct);
+    
     this.route.navigate(['/products/list'])
       .then(value => {
       })
