@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, NgForm, FormControl, Validators} from '@angular/forms';
 import {CurrencyPipe} from '@angular/common';
-import {isNull} from 'util';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class ProductEditComponent implements OnInit {
     description: new FormControl('', [Validators.maxLength(100)])
   });
 
-  constructor(private currencyPipe: CurrencyPipe) {
+  constructor(private currencyPipe: CurrencyPipe, private route: Router) {
   }
 
   ngOnInit(): void {
@@ -29,10 +29,20 @@ export class ProductEditComponent implements OnInit {
 
 
   onSubmit(): any {
-
     console.log(this.productForm);
+    this.route.navigate(['/products/list'])
+      .then(value => {
+      })
+      .catch(error => {
+      });
+  }
 
-
+  cancelAction(): void {
+    this.route.navigate(['/products/list'])
+      .then(value => {
+      })
+      .catch(error => {
+      });
   }
 
   transformAmount(): void {
