@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {Product} from '../../models/Product';
 import {Guid} from 'guid-typescript';
 import {ProductsService} from '../../Services/products.service';
+import {BaseResponse} from '../../models/BaseResponse';
 
 @Component({
   selector: 'app-product-list',
@@ -18,7 +19,10 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.productList = this.productsService.getProducts();
+    this.productsService.getProducts()
+      .subscribe((serviceResponse: BaseResponse<Product>) => {
+        this.productList = serviceResponse.data;
+      });
   }
 
   addNewProduct(): void {

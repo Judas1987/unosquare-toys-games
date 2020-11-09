@@ -9,6 +9,7 @@ import { ProductEditComponent } from './products/product-edit/product-edit.compo
 import { ProductsComponent } from './products/products.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CurrencyPipe} from '@angular/common';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import {CurrencyPipe} from '@angular/common';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     CurrencyPipe

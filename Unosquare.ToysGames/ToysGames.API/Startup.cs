@@ -31,10 +31,21 @@ namespace ToysGames.API
         }
 
         public IConfiguration Configuration { get; }
+        readonly string _myAllowedSpecificOrigins = "_myAllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: _myAllowedSpecificOrigins,
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200",
+                            "http://www.contoso.com");
+                    });
+            });
+
             services.AddSwaggerGen();
 
             var options = new DbContextOptionsBuilder<ProductContext>()
@@ -57,7 +68,7 @@ namespace ToysGames.API
             }
 
             app.UseSwagger();
-            
+
             app.UseExceptionHandler("/error");
 
             app.UseHttpsRedirection();
@@ -65,6 +76,7 @@ namespace ToysGames.API
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Products API V1"); });
 
             app.UseRouting();
+            app.UseCors(_myAllowedSpecificOrigins);
 
             app.UseAuthorization();
 
@@ -73,7 +85,8 @@ namespace ToysGames.API
 
             var unitOfWork = app.ApplicationServices.GetService<IUnitOfWork>();
 
-            unitOfWork.Products.Insert(new Product(Guid.Parse("b06494b7-01b6-49b9-a6db-e32d64e4420c"), "Barby", "This is a barby.", 1, "Mattel", 123));
+            unitOfWork.Products.Insert(new Product(Guid.Parse("b06494b7-01b6-49b9-a6db-e32d64e4420c"), "Barby",
+                "This is a barby.", 1, "Mattel", 123));
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Ken", "This is a Ken.", 1, "Mattel", 123));
             unitOfWork.Products.Insert(new Product(Guid.NewGuid(), "Winnie the poo", "This is a barby.", 1, "Mattel",
                 123));

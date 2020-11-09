@@ -11,7 +11,7 @@
           <thead>
           <tr>
             <th>Name</th>
-            <th>Age restriction</th>
+            <th class="center-cell-text">Age restriction</th>
             <th>Price</th>
             <th>Company</th>
             <th>Actions</th>
@@ -20,8 +20,8 @@
           <tbody>
           <tr *ngFor="let currentProduct of productList; index as i">
             <td>{{currentProduct.name}}</td>
-            <td>{{currentProduct.ageRestriction}}</td>
-            <td>{{currentProduct.price}}</td>
+            <td class="center-cell-text">{{currentProduct.ageRestriction}}</td>
+            <td>{{currentProduct.price| currency:'USD':'symbol'}}</td>
             <td>{{currentProduct.company}}</td>
             <td>
               <a routerLink="../{{currentProduct.productId.toString()}}/edit">Edit</a>
@@ -32,7 +32,7 @@
           <tfoot>
           <tr>
             <th>Name</th>
-            <th>Age restriction</th>
+            <th class="center-cell-text">Age restriction</th>
             <th>Price</th>
             <th>Company</th>
             <th>Actions</th>

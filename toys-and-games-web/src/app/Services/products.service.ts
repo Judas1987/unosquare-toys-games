@@ -1,33 +1,33 @@
 import {Injectable} from '@angular/core';
 import {Product} from '../models/Product';
 import {Guid} from 'guid-typescript';
+import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {Observable, Subscription} from 'rxjs';
+import {BaseResponse} from '../models/BaseResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  products: Product[] = [];
-  addedProducts: Product[] = [];
+  private products: Product[] = [];
+  private addedProducts: Product[] = [];
 
-  getProducts(): Product[] {
+  constructor(private httpClient: HttpClient) {
+  }
 
-    this.products = [];
+  getProductById(productId: string): Observable<BaseResponse<Product>> {
+    const apiResource = `${environment.productsApiUrl}/products/${productId}`;
+    return this.httpClient.get<BaseResponse<Product>>(apiResource);
+  }
 
-    this.products.push(new Product(Guid.create(), 'Barbie Elsa - Frozen', 134, 'Mattel', 10, 'This is the best barbie in the world.'));
-    this.products.push(new Product(Guid.create(), 'Barbie Anna - Frozen', 134, 'Mattel', 10, 'This is the best barbie in the world.'));
-    this.products.push(new Product(Guid.create(), 'Goku action figure', 55, 'Mattel', 10, ''));
-    this.products.push(new Product(Guid.create(), 'Vegeta action figure', 55, 'Mattel', 10, ''));
-    this.products.push(new Product(Guid.create(), 'Winnie the poo', 12, 'Mattel', 10, ''));
+  getProducts(): Observable<BaseResponse<Product>> {
 
-    this.products.push.apply(this.products, this.addedProducts);
-
-    return this.products;
+    const apiResource = `${environment.productsApiUrl}/products`;
+    return this.httpClient.get<BaseResponse<Product>>(apiResource);
   }
 
   addProduct(newProduct: Product): void {
     this.addedProducts.push(newProduct);
-  }
-
-  constructor() {
   }
 }

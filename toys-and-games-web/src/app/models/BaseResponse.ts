@@ -2,6 +2,9 @@ export class BaseResponse<T> {
   /**
    * Represents the response data.
    */
-  public Data: T;
-
+  data: T[];
+  count: number;
+  totalItems: number;
+  currentIndex: number;
+  availableItems: number;
 }
