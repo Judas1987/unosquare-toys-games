@@ -78,14 +78,42 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         const ageRestriction = this.productForm.get('ageRestriction') as FormControl;
         const description = this.productForm.get('description') as FormControl;
 
-        const newProduct = new Product(Guid.create(), name.value, price.value, company.value, ageRestriction.value, description.value);
+        const newProduct = new Product(Guid.create(), name.value, this.transformToNumber(price.value), company.value,
+            ageRestriction.value, description.value);
 
-        this.productsService.addProduct(newProduct);
 
-        this.route.navigate(['/products/list'])
-            .then(value => {
-            })
-            .catch(error => {
+        switch (this.formMode) {
+            case 'CREATE':
+                this.productsService.addProduct(newProduct)
+                    .subscribe((response: BaseResponse<Product>) => {
+                        this.route.navigate(['/products/list'])
+                            .then(value => {
+                            })
+                            .catch(error => {
+                            });
+                    });
+                break;
+            case 'UPDATE':
+                this.productsService.updateProduct(this.productId, newProduct)
+                    .subscribe((response: BaseResponse<Product>) => {
+                        this.route.navigate(['/products/list'])
+                            .then(value => {
+                            })
+                            .catch(error => {
+                            });
+                    });
+                break;
+            default:
+                console.log('This form can only manage INSERT and UPDATES.');
+        }
+
+
+    }
+
+    onDelete(productId): void {
+        this.productsService.deleteProduct(productId)
+            .subscribe(() => {
+
             });
     }
 
@@ -111,6 +139,16 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         this.productForm.patchValue({
             price: formattedPrice
         });
+    }
+
+    transformToNumber(value: string): number {
+        if (value === '' || value === null) {
+            return 0;
+        }
+
+        const convertedNumber = value.replace('$', '');
+
+        return Number(convertedNumber);
     }
 
     transformToNumeric(): void {

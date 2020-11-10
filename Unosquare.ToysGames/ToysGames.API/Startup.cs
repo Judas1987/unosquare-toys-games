@@ -41,8 +41,9 @@ namespace ToysGames.API
                 options.AddPolicy(name: _myAllowedSpecificOrigins,
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200",
-                            "http://www.contoso.com");
+                        builder.WithOrigins("http://localhost:4200", "http://www.contoso.com")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
             });
 
