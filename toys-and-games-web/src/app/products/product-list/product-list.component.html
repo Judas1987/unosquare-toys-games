@@ -25,7 +25,8 @@
             <td>{{currentProduct.company}}</td>
             <td>
               <a routerLink="../{{currentProduct.productId.toString()}}/edit">Edit</a>
-              <a routerLink="../{{currentProduct.productId.toString()}}/delete">Delete</a>
+              <!--<a routerLink="../{{currentProduct.productId.toString()}}/delete">Delete</a> -->
+              <a (click)="openDialog()">Delete</a>
             </td>
           </tr>
           </tbody>

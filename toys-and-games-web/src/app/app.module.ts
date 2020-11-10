@@ -10,6 +10,9 @@ import { ProductsComponent } from './products/products.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CurrencyPipe} from '@angular/common';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DeleteConfirmationDialogComponent } from './delete-confirmation-dialog/delete-confirmation-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -17,14 +20,17 @@ import {HttpClient, HttpClientModule} from '@angular/common/http';
     ProductItemComponent,
     ProductListComponent,
     ProductEditComponent,
-    ProductsComponent
+    ProductsComponent,
+    DeleteConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [
     CurrencyPipe

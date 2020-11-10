@@ -4,6 +4,8 @@ import {Product} from '../../models/Product';
 import {Guid} from 'guid-typescript';
 import {ProductsService} from '../../Services/products.service';
 import {BaseResponse} from '../../models/BaseResponse';
+import {MatDialog} from '@angular/material/dialog';
+import {DeleteConfirmationDialogComponent} from '../../delete-confirmation-dialog/delete-confirmation-dialog.component';
 
 @Component({
   selector: 'app-product-list',
@@ -12,7 +14,7 @@ import {BaseResponse} from '../../models/BaseResponse';
 })
 export class ProductListComponent implements OnInit {
 
-  constructor(private route: Router, private productsService: ProductsService) {
+  constructor(private route: Router, private productsService: ProductsService, public dialog: MatDialog) {
   }
 
   productList: Product[] = [];
@@ -23,6 +25,14 @@ export class ProductListComponent implements OnInit {
       .subscribe((serviceResponse: BaseResponse<Product>) => {
         this.productList = serviceResponse.data;
       });
+  }
+
+  openDialog(): any {
+    const dialogRef = this.dialog.open(DeleteConfirmationDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
   addNewProduct(): void {
