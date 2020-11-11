@@ -74,6 +74,10 @@ export class ProductEditComponent implements OnInit {
    */
   onSubmit(): void {
 
+    if (!this.productForm.valid) {
+      return;
+    }
+
     const name = this.productForm.get('name') as FormControl;
     const price = this.productForm.get('price') as FormControl;
     const company = this.productForm.get('company') as FormControl;

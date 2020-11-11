@@ -11,10 +11,10 @@ This project is meant to create a stock management web tool for toys and games
 
 Create a stock management web tool for “Toys and Games” store.
 
-- [ ] Should be able to list the available products in a grid
-- [ ] Should be able to Create, Update, Delete products
-- [ ] Should provide a simple Form when creating or updating products
-- [ ] Should provide user confirmation for product Deletion
+- [x] Should be able to list the available products in a grid
+- [x] Should be able to Create, Update, Delete products
+- [x] Should provide a simple Form when creating or updating products
+- [x] Should provide user confirmation for product Deletion
 - [ ] **(OPTIONAL)** display product images
 
 ### **Table design** <!-- omit in toc -->
