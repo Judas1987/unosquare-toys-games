@@ -2,7 +2,6 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <!--<button (click)="addNewProduct()" class="btn btn-primary">Add new +</button>-->
         <button (click)="openProductCreationDialog()" class="btn btn-primary">Add new +</button>
       </div>
     </div>
@@ -25,8 +24,6 @@
             <td>{{currentProduct.price| currency:'USD':'symbol'}}</td>
             <td>{{currentProduct.company}}</td>
             <td>
-              <!--<a routerLink="../{{currentProduct.productId.toString()}}/edit">Edit</a>-->
-              <!--<a routerLink="../{{currentProduct.productId.toString()}}/delete">Delete</a> -->
               <a routerLink="" (click)="openProductUpdateDialog(currentProduct.productId.toString())">Edit</a>
               <a routerLink=""
                  (click)="openProductRemovalDialog(currentProduct.name, currentProduct.productId.toString())">Delete</a>

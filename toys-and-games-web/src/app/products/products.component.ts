@@ -6,17 +6,10 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./products.component.sass']
 })
 export class ProductsComponent implements OnInit {
-
-  captureMode = false;
-
   constructor() {
   }
 
   ngOnInit(): void {
-  }
-
-  addNewProduct(): void {
-
   }
 
 }

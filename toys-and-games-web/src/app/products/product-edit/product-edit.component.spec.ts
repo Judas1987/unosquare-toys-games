@@ -2,9 +2,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ProductEditComponent} from './product-edit.component';
 import {CurrencyPipe} from '@angular/common';
-import {Router} from '@angular/router';
 import {ProductsService} from '../../Services/products.service';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 

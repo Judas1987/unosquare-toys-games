@@ -14,17 +14,29 @@ import {ProductEditComponent} from '../product-edit/product-edit.component';
 })
 export class ProductListComponent implements OnInit {
 
+  /**
+   * Product list component constructor
+   * @param route Represents the router instance.
+   * @param productsService Represents the instance of the product service to manipulate data.
+   * @param dialog Represents the dialog instance to open different dialogs within the application.
+   */
   constructor(private route: Router, private productsService: ProductsService, public dialog: MatDialog) {
   }
 
   productList: Product[] = [];
   productId: string;
 
+  /**
+   * On init event lifecycle from angular.
+   */
   ngOnInit(): void {
     this.loadProducts()
       .then(() => console.log('Products have been loaded successfully.'));
   }
 
+  /**
+   * This function loads all the products into the UI.
+   */
   loadProducts(): Promise<void> {
     return new Promise<void>(((resolve, reject) => {
       this.productsService.getProducts()
@@ -35,6 +47,11 @@ export class ProductListComponent implements OnInit {
     }));
   }
 
+  /**
+   * This function opens the dialog to confirm the deletion of a given product.
+   * @param productName Represents the product name.
+   * @param productId Represents the product id.
+   */
   openProductRemovalDialog(productName: string, productId: string): any {
     this.productId = productId;
 
@@ -67,6 +84,10 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  /**
+   * This function calls the product service to remove a given product.
+   * @param productId Represents the product id of the product to be removed.
+   */
   deleteProduct(productId: string): Promise<void> {
     return new Promise<void>(((resolve, reject) => {
       this.productsService.deleteProduct(productId)
@@ -77,6 +98,9 @@ export class ProductListComponent implements OnInit {
     }));
   }
 
+  /**
+   * This function open the product creation dialog and passes the necessary information to put the form in the mode.
+   */
   openProductCreationDialog(): any {
     const dialogRef = this.dialog.open(ProductEditComponent, {
       width: '500px',
@@ -92,9 +116,11 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  /**
+   * This function opens the product modification dialog and passes the necessary information to put the form in that mode.
+   * @param productId Represents the product id.
+   */
   openProductUpdateDialog(productId: string): any {
-
-    console.log(`This is the product id: ${productId}`);
     const dialogRef = this.dialog.open(ProductEditComponent, {
       width: '500px',
       data: {formMode: 'UPDATE', productId}
@@ -108,13 +134,4 @@ export class ProductListComponent implements OnInit {
       }
     });
   }
-
-  addNewProduct(): void {
-    this.route.navigate(['products/add'])
-      .then(value => {
-      })
-      .catch(error => {
-      });
-  }
-
 }

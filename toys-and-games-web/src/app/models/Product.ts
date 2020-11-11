@@ -2,11 +2,34 @@ import {Guid} from 'guid-typescript';
 
 export class Product {
 
+  /**
+   * Represents the product name.
+   */
   name: string;
+
+  /**
+   * Represents the price.
+   */
   price: number;
+
+  /**
+   * Represents the company name.
+   */
   company: string;
+
+  /**
+   * Represents the age restriction.
+   */
   ageRestriction: number;
+
+  /**
+   * Represents the product description.
+   */
   description: string;
+
+  /**
+   * Represents the product id.
+   */
   productId: Guid;
 
   /**
