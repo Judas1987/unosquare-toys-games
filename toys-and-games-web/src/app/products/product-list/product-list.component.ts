@@ -25,23 +25,43 @@ export class ProductListComponent implements OnInit {
 
   productList: Product[] = [];
   productId: string;
+  loading = false;
 
   /**
    * On init event lifecycle from angular.
    */
   ngOnInit(): void {
+
     this.loadProducts()
-      .then(() => console.log('Products have been loaded successfully.'));
+      .then(() => console.log('Products have been loaded successfully.'))
+      .catch(error => {
+        this.loading = false;
+        throw(error);
+      });
+  }
+
+  /**
+   * This method removes the loader in case something wrong happens.
+   */
+  loaderRemoved(): any {
+    setTimeout(() => {
+      this.loading = false;
+    }, 5000);
   }
 
   /**
    * This function loads all the products into the UI.
    */
   loadProducts(): Promise<void> {
+    this.loading = true;
+
+    this.loaderRemoved();
+
     return new Promise<void>(((resolve, reject) => {
       this.productsService.getProducts()
         .subscribe((serviceResponse: BaseResponse<Product>) => {
           this.productList = serviceResponse.data;
+          this.loading = false;
           resolve();
         });
     }));
@@ -89,9 +109,11 @@ export class ProductListComponent implements OnInit {
    * @param productId Represents the product id of the product to be removed.
    */
   deleteProduct(productId: string): Promise<void> {
+    this.loading = true;
     return new Promise<void>(((resolve, reject) => {
       this.productsService.deleteProduct(productId)
         .subscribe((results) => {
+          this.loading = false;
           resolve();
           console.log(results);
         });

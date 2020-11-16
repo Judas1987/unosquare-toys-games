@@ -2,6 +2,7 @@
   <h2 *ngIf="data.formMode==='CREATE'" mat-dialog-title>Adding new product</h2>
   <h2 *ngIf="data.formMode==='UPDATE'" mat-dialog-title>Updating existing product</h2>
   <mat-divider></mat-divider>
+  <br/>
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
     <div class="form-group row">
       <label for="productName" class="col-sm-3 col-form-label">Name</label>
