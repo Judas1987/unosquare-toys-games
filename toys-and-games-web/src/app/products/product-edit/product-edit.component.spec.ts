@@ -6,32 +6,306 @@ import {ProductsService} from '../../Services/products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {BaseResponse} from '../../models/BaseResponse';
+import {Product} from '../../models/Product';
+import {Observable} from 'rxjs';
+import {Guid} from 'guid-typescript';
 
 describe('ProductEditComponent', () => {
-  let component: ProductEditComponent;
-  let fixture: ComponentFixture<ProductEditComponent>;
+    let component: ProductEditComponent;
+    let fixture: ComponentFixture<ProductEditComponent>;
+    let productServiceSpy: jasmine.SpyObj<ProductsService>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule],
-      providers: [
-        CurrencyPipe,
-        ProductsService,
-        {provide: MAT_DIALOG_DATA, useValue: {data: {formMode: 'INSERT', productId: '12312'}}},
-        {provide: MatDialogRef, useValue: {data: {formMode: 'INSERT', productId: '12312'}}}
-      ],
-      declarations: [ProductEditComponent]
-    })
-      .compileComponents();
-  });
+    beforeEach(async () => {
+        const spy = jasmine.createSpyObj('ProductsService', ['getProductById']);
+        await TestBed.configureTestingModule({
+            providers: [
+                CurrencyPipe,
+                {
+                    provide: ProductsService,
+                    useValue: spy
+                },
+                {provide: MAT_DIALOG_DATA, useValue: {data: {formMode: 'UPDATE', productId: '12312'}}},
+                {provide: MatDialogRef, useValue: {data: {}}}
+            ],
+            declarations: [ProductEditComponent]
+        }).compileComponents();
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProductEditComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        productServiceSpy = TestBed.inject(ProductsService) as jasmine.SpyObj<ProductsService>;
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(ProductEditComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create component instance', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it('should pass all product creation validations', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 234,
+                company: 'Mattel',
+                ageRestriction: 44,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+
+    });
+
+    it('should reject product name because length is greater than allowed', () => {
+
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll is such a nice doll to play with and I really like it. Never mind, I think this is not' +
+                    ' going to pass',
+                price: 234,
+                company: 'Mattel',
+                ageRestriction: 44,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeFalse();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product name because name is not provided', () => {
+        component.productForm.patchValue(
+            {
+                name: '',
+                price: 234,
+                company: 'Mattel',
+                ageRestriction: 44,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeFalse();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product price because is lower than one', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: -1,
+                company: 'Mattel',
+                ageRestriction: 44,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeFalse();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product price because is greater than one thousand', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 1001,
+                company: 'Mattel',
+                ageRestriction: 44,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeFalse();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product price because is missing', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: null,
+                company: 'Mattel',
+                ageRestriction: 44,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeFalse();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product company because is missing', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 134,
+                company: null,
+                ageRestriction: 44,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeFalse();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product company because length is greater than fifty', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 134,
+                company: 'This is a very nice company that help the environment and things like that, I think everybody' +
+                    ' should buy front this company.',
+                ageRestriction: 44,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeFalse();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product age restriction because is lower than zero', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 134,
+                company: 'Mattel',
+                ageRestriction: -1,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeFalse();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product age restriction because is greater than 100', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 134,
+                company: 'Mattel',
+                ageRestriction: 101,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeFalse();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should accept product age restriction even when is missing', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 134,
+                company: 'Mattel',
+                ageRestriction: null,
+                description: 'This is a test product description.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should reject product description because length is greater than one hundred', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 134,
+                company: 'Mattel',
+                ageRestriction: 0,
+                description: 'This is a test product description which will not be allowed to be created because of' +
+                    ' the description length. This is a cool form validation that is supported by the reactive form.'
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeFalse();
+    });
+
+    it('should accept product description even when is missing', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 134,
+                company: 'Mattel',
+                ageRestriction: 0,
+                description: null
+            });
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+    });
+
+    it('should execute getProductById once when in UPDATE mode', () => {
+
+        const serviceResponse = new BaseResponse<Product>();
+        serviceResponse.data = [new Product(Guid.parse('dca0d1ea-3618-4044-a79f-65af030cf595'), 'Judas doll',
+            84, 'Mattel', 1, 'This is a very nice doll')];
+        const serviceObservable = new Observable<BaseResponse<Product>>(observer => {
+            observer.next(serviceResponse);
+        });
+
+        productServiceSpy.getProductById.and.returnValue(serviceObservable);
+        component.data.formMode = 'UPDATE';
+
+        component.ngOnInit();
+
+        expect(productServiceSpy.getProductById.calls.count())
+            .toBe(1, 'The number of calls to the getProductById method should be one.');
+
+        expect(productServiceSpy.getProductById.calls.mostRecent().returnValue)
+            .toBe(serviceObservable);
+    });
+
+    it('should not execute getProductById on INSERT mode', () => {
+
+        const serviceResponse = new BaseResponse<Product>();
+        serviceResponse.data = [new Product(Guid.parse('dca0d1ea-3618-4044-a79f-65af030cf595'), 'Judas doll',
+            84, 'Mattel', 1, 'This is a very nice doll')];
+        const serviceObservable = new Observable<BaseResponse<Product>>(observer => {
+            observer.next(serviceResponse);
+        });
+
+        productServiceSpy.getProductById.and.returnValue(serviceObservable);
+        component.data.formMode = 'INSERT';
+
+        component.ngOnInit();
+
+        expect(productServiceSpy.getProductById.calls.count())
+            .toBe(0, 'The number of calls to the getProductById method should be zero.');
+    });
 });
