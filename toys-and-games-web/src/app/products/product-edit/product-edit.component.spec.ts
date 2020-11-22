@@ -1,11 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {ProductEditComponent} from './product-edit.component';
 import {CurrencyPipe} from '@angular/common';
 import {ProductsService} from '../../Services/products.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {RouterTestingModule} from '@angular/router/testing';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {BaseResponse} from '../../models/BaseResponse';
 import {Product} from '../../models/Product';
 import {Observable} from 'rxjs';
@@ -15,23 +12,40 @@ describe('ProductEditComponent', () => {
     let component: ProductEditComponent;
     let fixture: ComponentFixture<ProductEditComponent>;
     let productServiceSpy: jasmine.SpyObj<ProductsService>;
+    let matDialogSpy: jasmine.SpyObj<MatDialogRef<ProductEditComponent>>;
 
     beforeEach(async () => {
-        const spy = jasmine.createSpyObj('ProductsService', ['getProductById']);
+        const productServiceSpyFactory = jasmine.createSpyObj('ProductsService',
+            ['getProductById', 'addProduct', 'updateProduct']);
+
+        const matDialogSpyFactory = jasmine.createSpyObj('MatDialogRef',
+            ['close']);
+
         await TestBed.configureTestingModule({
             providers: [
                 CurrencyPipe,
                 {
                     provide: ProductsService,
-                    useValue: spy
+                    useValue: productServiceSpyFactory
                 },
-                {provide: MAT_DIALOG_DATA, useValue: {data: {formMode: 'UPDATE', productId: '12312'}}},
-                {provide: MatDialogRef, useValue: {data: {}}}
+                {
+                    provide: MAT_DIALOG_DATA, useValue: {
+                        data: {
+                            formMode: 'UPDATE',
+                            productId: '12312'
+                        }
+                    }
+                },
+                {
+                    provide: MatDialogRef,
+                    useValue: matDialogSpyFactory
+                }
             ],
             declarations: [ProductEditComponent]
         }).compileComponents();
 
         productServiceSpy = TestBed.inject(ProductsService) as jasmine.SpyObj<ProductsService>;
+        matDialogSpy = TestBed.inject(MatDialogRef) as jasmine.SpyObj<MatDialogRef<ProductEditComponent>>;
     });
 
     beforeEach(() => {
@@ -307,5 +321,61 @@ describe('ProductEditComponent', () => {
 
         expect(productServiceSpy.getProductById.calls.count())
             .toBe(0, 'The number of calls to the getProductById method should be zero.');
+    });
+
+    it('should reject form submission due to form being invalid', () => {
+        component.productForm.patchValue(
+            {
+                name: null,
+                price: '$134',
+                company: 'Mattel',
+                ageRestriction: 0,
+                description: 'This is a nice description'
+            });
+        component.data.formMode = 'CREATE';
+
+        expect(component.productForm.controls.name.valid).toBeFalse();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+
+        component.onSubmit();
+
+        expect(productServiceSpy.addProduct.calls.count())
+            .toBe(0, 'The addProduct function was called even when it was not allowed.');
+
+        expect(productServiceSpy.updateProduct.calls.count())
+            .toBe(0, 'The updateProduct function was called even when it was not allowed.');
+    });
+
+    it('should successfully create a new product', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: '$134',
+                company: 'Mattel',
+                ageRestriction: 0,
+                description: 'This is a nice description'
+            });
+        component.data.formMode = 'CREATE';
+        productServiceSpy.addProduct.and.returnValue(new Observable());
+
+        expect(component.productForm.controls.name.valid).toBeTrue();
+        expect(component.productForm.controls.price.valid).toBeTrue();
+        expect(component.productForm.controls.company.valid).toBeTrue();
+        expect(component.productForm.controls.ageRestriction.valid).toBeTrue();
+        expect(component.productForm.controls.description.valid).toBeTrue();
+
+        component.onSubmit();
+
+        expect(productServiceSpy.addProduct.calls.count())
+            .toBe(1, 'The addProduct function was called even when it was not allowed.');
+
+        expect(productServiceSpy.updateProduct.calls.count())
+            .toBe(0, 'The updateProduct function was called even when it was not allowed.');
+
+        expect(matDialogSpy.close.calls.count())
+            .toBe(1, 'The mat dialog close function was not called.');
     });
 });
