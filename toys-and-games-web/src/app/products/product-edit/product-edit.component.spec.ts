@@ -375,7 +375,10 @@ describe('ProductEditComponent', () => {
         expect(productServiceSpy.updateProduct.calls.count())
             .toBe(0, 'The updateProduct function was called even when it was not allowed.');
 
-        expect(matDialogSpy.close.calls.count())
-            .toBe(1, 'The mat dialog close function was not called.');
+        setTimeout(() => {
+            expect(matDialogSpy.close.calls.count())
+                .toBe(1, 'The mat dialog close function was not called.');
+        }, 100);
     });
 });
+
