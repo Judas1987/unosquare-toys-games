@@ -1,0 +1,1 @@
+ 2tsX hr7src/app/products/product-list/product-list.component.ts
