@@ -1,51 +1,53 @@
 <div *ngIf="loading" class="mat-app-background basic-container">
-  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
 </div>
 <br/>
 <section>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        <button (click)="openProductCreationDialog()" class="btn btn-primary">Add new +</button>
-      </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <button (click)="openProductCreationDialog()" class="btn btn-primary">Add new +</button>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="products" class="table table-striped table-bordered" style="width:100%">
+                    <caption>Products list</caption>
+                    <thead>
+                    <tr>
+                        <th id="pName">Name</th>
+                        <th id="pAgeRestriction" class="center-cell-text">Age restriction</th>
+                        <th id="pPrice">Price</th>
+                        <th id="pCompany">Company</th>
+                        <th id="pActions" style="text-align: center">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let currentProduct of productList; index as i">
+                        <td>{{currentProduct.name}}</td>
+                        <td class="center-cell-text">{{currentProduct.ageRestriction}}</td>
+                        <td>{{currentProduct.price| currency:'USD':'symbol'}}</td>
+                        <td>{{currentProduct.company}}</td>
+                        <td style="text-align: center">
+                            <a routerLink="" style="margin-right: 10px"
+                               (click)="openProductUpdateDialog(currentProduct.productId.toString())">Edit</a>
+                            <a routerLink=""
+                               (click)="openProductRemovalDialog(currentProduct.name, currentProduct.productId.toString())">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                      <th id="pfName">Name</th>
+                      <th id="pfAgeRestriction" class="center-cell-text">Age restriction</th>
+                      <th id="pfPrice">Price</th>
+                      <th id="pfCompany">Company</th>
+                      <th id="pfActions" style="text-align: center">Actions</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
     </div>
-    <br/>
-    <div class="row">
-      <div class="col-md-12">
-        <table id="products" class="table table-striped table-bordered" style="width:100%">
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th class="center-cell-text">Age restriction</th>
-            <th>Price</th>
-            <th>Company</th>
-            <th style="text-align: center">Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let currentProduct of productList; index as i">
-            <td>{{currentProduct.name}}</td>
-            <td class="center-cell-text">{{currentProduct.ageRestriction}}</td>
-            <td>{{currentProduct.price| currency:'USD':'symbol'}}</td>
-            <td>{{currentProduct.company}}</td>
-            <td style="text-align: center">
-              <a routerLink="" style="margin-right: 10px" (click)="openProductUpdateDialog(currentProduct.productId.toString())">Edit</a>
-              <a routerLink=""
-                 (click)="openProductRemovalDialog(currentProduct.name, currentProduct.productId.toString())">Delete</a>
-            </td>
-          </tr>
-          </tbody>
-          <tfoot>
-          <tr>
-            <th>Name</th>
-            <th class="center-cell-text">Age restriction</th>
-            <th>Price</th>
-            <th>Company</th>
-            <th style="text-align: center">Actions</th>
-          </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-  </div>
 </section>

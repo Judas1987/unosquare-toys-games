@@ -7,6 +7,7 @@ import {BaseResponse} from '../../models/BaseResponse';
 import {Product} from '../../models/Product';
 import {Observable} from 'rxjs';
 import {Guid} from 'guid-typescript';
+import {FormControl} from '@angular/forms';
 
 describe('ProductEditComponent', () => {
     let component: ProductEditComponent;
@@ -359,7 +360,15 @@ describe('ProductEditComponent', () => {
                 description: 'This is a nice description'
             });
         component.data.formMode = 'CREATE';
-        productServiceSpy.addProduct.and.returnValue(new Observable());
+
+        const serviceObservable = new Observable<BaseResponse<Product>>(observer => {
+            const serviceResponse = new BaseResponse<Product>();
+            serviceResponse.data = [new Product(Guid.parse('442528ac-0668-43cd-a516-af4e79d41220'), 'Judas doll',
+                84, 'Mattel', 1, 'This is a very nice doll')];
+            observer.next(serviceResponse);
+        });
+
+        productServiceSpy.addProduct.and.returnValue(serviceObservable);
 
         expect(component.productForm.controls.name.valid).toBeTrue();
         expect(component.productForm.controls.price.valid).toBeTrue();
@@ -375,10 +384,104 @@ describe('ProductEditComponent', () => {
         expect(productServiceSpy.updateProduct.calls.count())
             .toBe(0, 'The updateProduct function was called even when it was not allowed.');
 
-        setTimeout(() => {
-            expect(matDialogSpy.close.calls.count())
-                .toBe(1, 'The mat dialog close function was not called.');
-        }, 2000);
+        expect(matDialogSpy.close.calls.count())
+            .toBe(1, 'The mat dialog close function was not called.');
+    });
+
+    it('should successfully update an existing product', () => {
+        component.data.formMode = 'UPDATE';
+        component.data.productId = '442528ac-0668-43cd-a516-af4e79d41220';
+
+        const getProductByIdObservable = new Observable<BaseResponse<Product>>(observer => {
+            const serviceResponse = new BaseResponse<Product>();
+            serviceResponse.data = [new Product(Guid.parse('442528ac-0668-43cd-a516-af4e79d41220'), 'Judas doll',
+                84, 'Mattel', 1, 'This is a very nice doll')];
+            observer.next(serviceResponse);
+        });
+
+        productServiceSpy.getProductById.and.returnValue(getProductByIdObservable);
+
+        const updateProductObservable = new Observable<BaseResponse<Product>>(observer => {
+            const serviceResponse = new BaseResponse<Product>();
+            serviceResponse.data = [new Product(Guid.parse('442528ac-0668-43cd-a516-af4e79d41220'), 'Judas doll',
+                84, 'Mattel', 1, 'This is a very nice doll')];
+            observer.next(serviceResponse);
+        });
+
+        productServiceSpy.updateProduct.and.returnValue(updateProductObservable);
+
+        component.ngOnInit();
+        component.onSubmit();
+
+        expect(productServiceSpy.getProductById.calls.count())
+            .toBe(1, 'The function getProductById was not called once.');
+
+        expect(productServiceSpy.addProduct.calls.count())
+            .toBe(0, 'The function addProduct was called during an update event.');
+
+        expect(productServiceSpy.updateProduct.calls.count())
+            .toBe(1, 'The function updateProduct was not called once.');
+
+        expect(matDialogSpy.close.calls.count())
+            .toBe(1, 'The mat dialog close function was not called.');
+    });
+
+    it('should transform price from numeric to currency', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: '134',
+                company: 'Mattel',
+                ageRestriction: 0,
+                description: 'This is a nice description'
+            });
+
+        component.transformAmountToCurrency();
+
+        const currentPrice = component.productForm.get('price') as FormControl;
+        expect(currentPrice.value)
+            .toBe('$134.00', 'The function transformAmountToCurrency did not transform the numeric value to currency.');
+    });
+
+    it('should empty the price form field when invalid number entered', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: 'dflkdjsnjka',
+                company: 'Mattel',
+                ageRestriction: 0,
+                description: 'This is a nice description'
+            });
+
+        component.transformAmountToCurrency();
+
+        const currentPrice = component.productForm.get('price') as FormControl;
+        expect(currentPrice.value)
+            .toBe(null, 'The function transformAmountToCurrency did not transform the numeric value to currency.');
+    });
+
+    it('should return zero in case of empty parameter', () => {
+        const transformedValue = component.transformToNumber('');
+
+        expect(transformedValue).toBe(0, 'The function transformToNumber did not return zero when empty parameter' +
+            ' passed.');
+    });
+
+    it('should remove currency sign', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: '$134',
+                company: 'Mattel',
+                ageRestriction: 0,
+                description: 'This is a nice description'
+            });
+
+        component.transformToNumeric();
+
+        const currentPrice = component.productForm.get('price') as FormControl;
+
+        expect(currentPrice.value).toBe('134', 'The function transformToNumeric did not do its job correctly.');
     });
 });
 

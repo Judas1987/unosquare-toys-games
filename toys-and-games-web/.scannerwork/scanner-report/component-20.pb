@@ -1,1 +1,0 @@
- 2tsX5hrsrc/app/models/Product.ts
