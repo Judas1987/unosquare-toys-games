@@ -483,5 +483,22 @@ describe('ProductEditComponent', () => {
 
         expect(currentPrice.value).toBe('134', 'The function transformToNumeric did not do its job correctly.');
     });
+
+    it('should early return the function transformToNumeric', () => {
+        component.productForm.patchValue(
+            {
+                name: 'Judas doll',
+                price: null,
+                company: 'Mattel',
+                ageRestriction: 0,
+                description: 'This is a nice description'
+            });
+
+        component.transformToNumeric();
+
+        const currentPrice = component.productForm.get('price') as FormControl;
+
+        expect(currentPrice.value).toBe(null, 'The function transformToNumeric did not do its job correctly.');
+    });
 });
 
